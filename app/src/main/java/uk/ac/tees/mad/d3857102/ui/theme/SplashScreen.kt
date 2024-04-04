@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,10 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import uk.ac.tees.mad.d3857102.R
-import uk.ac.tees.mad.d3857102.navigation.NavigationDestination
+import uk.ac.tees.mad.d3857102.navigation.NavDestination
 
 
-object SplashDestination : NavigationDestination {
+object SplashDestination : NavDestination {
     override val route: String
         get() = "splash"
 }
@@ -54,7 +53,7 @@ fun SplashScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(Orange)
             .padding(24.dp),
 
         horizontalAlignment = Alignment.CenterHorizontally,
