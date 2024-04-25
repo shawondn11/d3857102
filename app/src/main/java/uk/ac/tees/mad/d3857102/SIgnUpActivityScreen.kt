@@ -10,14 +10,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.fragment.app.FragmentActivity
 import uk.ac.tees.mad.d3857102.ui.theme.EnthenoRental2Theme
 
-class MainActivity : FragmentActivity() {
+class SIgnUpActivityScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        supportFragmentManager.beginTransaction().add(R.id.main_activity,SplashFragment()).commit()
+        setContent {
+            EnthenoRental2Theme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+
+                }
+            }
+        }
     }
 }
-
