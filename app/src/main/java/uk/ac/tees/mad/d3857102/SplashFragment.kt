@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 class SplashFragment: Fragment(R.layout.splash_screen) {
@@ -38,24 +39,26 @@ class SplashFragment: Fragment(R.layout.splash_screen) {
                         sleep(1000)
                     } catch (e: Exception) {
                     } finally {
-                        val intent = Intent(requireContext(), LoginScreenActivity::class.java)
-                        startActivity(intent)
-                        activity?.finish()
 
-//                        if(isUserLoggedIn()){
-//                            val intent = Intent(requireContext(), DashboardActivity::class.java)
-//                            startActivity(intent)
-//                            activity?.finish()
-//                        }else{
-//                            val intent = Intent(requireContext(), LoginActivity::class.java)
-//                            startActivity(intent)
-//                            activity?.finish()
-//                        }
+                        if(isUserLoggedIn()){
+                            val intent = Intent(requireContext(), DashboardActivity::class.java)
+                            startActivity(intent)
+                            activity?.finish()
+                        }else{
+                            val intent = Intent(requireContext(), LoginScreenActivity::class.java)
+                            startActivity(intent)
+                            activity?.finish()
+                        }
 
                     }
                 }
             }.start()
         }
+
+    }
+    fun isUserLoggedIn(): Boolean {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        return currentUser != null
     }
     @Composable
     fun SplashScreen() {

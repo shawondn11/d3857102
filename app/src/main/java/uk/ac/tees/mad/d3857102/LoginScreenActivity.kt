@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 
@@ -91,7 +92,7 @@ class LoginScreenActivity : ComponentActivity() {
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(
                     text = "ENTHENO-RENTAL",
-                    fontSize = 32.sp,
+                    fontSize = 25.sp,
                     letterSpacing = 1.5.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(android.graphics.Color.parseColor("#ff944d")),
@@ -105,7 +106,7 @@ class LoginScreenActivity : ComponentActivity() {
 
                 Text(
                     text = "LOGIN",
-                    fontSize = 25.sp,
+                    fontSize = 21.sp,
                     letterSpacing = 1.0.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(android.graphics.Color.parseColor("#ff944d")),
@@ -122,7 +123,6 @@ class LoginScreenActivity : ComponentActivity() {
                     onValueChange = { emailState.value = it },
                     label = { Text("Email") },
                     singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier
                         .padding(vertical = 8.dp)
                         .fillMaxWidth(),
@@ -157,8 +157,28 @@ class LoginScreenActivity : ComponentActivity() {
 
                 Button(
                     onClick = {
-                        // TODO: Handle sign in logic
-                        Toast.makeText(context, "Sign In Clicked", Toast.LENGTH_SHORT).show()
+                        if (emailState.value.isNotEmpty() && passwordState.value.isNotEmpty()) {
+                            FirebaseAuth.getInstance().signInWithEmailAndPassword(emailState.value, passwordState.value)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        val intent = Intent(this@LoginScreenActivity, DashboardActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    } else {
+                                        // Login failed, get the error message
+                                        val errorMessage = task.exception?.message
+                                        if (errorMessage != null) {
+                                            Toast.makeText(this@LoginScreenActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                }.addOnFailureListener { exception ->
+                                    Toast.makeText(this@LoginScreenActivity, exception.toString(), Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                        } else {
+                            Toast.makeText(this@LoginScreenActivity, "Username or password is incorrect", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -166,7 +186,7 @@ class LoginScreenActivity : ComponentActivity() {
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(android.graphics.Color.parseColor("#ff944d")))
                 ) {
                     Text(
-                        text = "Sign In",
+                        text = "Login In",
                         color = Color(android.graphics.Color.parseColor("#ffffff")),
                         fontWeight = FontWeight.Bold
                     )
