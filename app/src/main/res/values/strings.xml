@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">EthenoRental</string>
+    <string name="title_activity_login_screen">LoginScreenActivity</string>
+    <string name="title_activity_sign_up_screen">SIgnUpActivityScreen</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_edit_my_profile">EditMyProfile</string>
+    <string name="title_activity_wearable">WearableActivity</string>
+    <string name="title_activity_locate_client_acitvity">LocateClientAcitvity</string>
+</resources>
