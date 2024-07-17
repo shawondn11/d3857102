@@ -47,6 +47,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 
@@ -96,8 +97,6 @@ class DashboardActivity : ComponentActivity() {
             NavigationItem.Account,
             NavigationItem.Rent
         )
-//    val profilePicture: Painter = painterResource(id = R.drawable.profile_picture)
-//    val name = "Hi, " +"John Doe"
 
         Scaffold(
             bottomBar = {
@@ -144,6 +143,19 @@ class DashboardActivity : ComponentActivity() {
 
 
             },
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            text = " Etheno Rental",
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+
+                        )
+                    }
+                )
+            }
         ) {
 
             NavigationController(navController = navController)
@@ -182,38 +194,38 @@ class DashboardActivity : ComponentActivity() {
             if (uid != null) {
                 FirebaseFirestore.getInstance().collection("users").document(uid).collection("rent")
                     .get().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val wear = mutableListOf<Wearables>()
-                        val result = task.result
-                        result?.let { querySnapshot ->
+                        if (task.isSuccessful) {
+                            val wear = mutableListOf<Wearables>()
+                            val result = task.result
+                            result?.let { querySnapshot ->
 
-                            for (document in querySnapshot) {
-                                val name = document.getString("name") ?: ""
-                                val imageUrl = document.getString("image_url") ?: ""
-                                val description = document.getString("description") ?: ""
-                                val price = document.getLong("price") ?: 0
-                                val lat = document.getDouble("lat") ?: 0.0
-                                val long = document.getDouble("long") ?: 0.0
+                                for (document in querySnapshot) {
+                                    val name = document.getString("name") ?: ""
+                                    val imageUrl = document.getString("image_url") ?: ""
+                                    val description = document.getString("description") ?: ""
+                                    val price = document.getLong("price") ?: 0
+                                    val lat = document.getDouble("lat") ?: 0.0
+                                    val long = document.getDouble("long") ?: 0.0
 
-                                val wearableModel =
-                                    Wearables(
-                                        name,
-                                        price.toInt(),
-                                        imageUrl,
-                                        description,
-                                        lat.toDouble(),
-                                        long.toDouble()
-                                    )
-                                wear.add(wearableModel)
+                                    val wearableModel =
+                                        Wearables(
+                                            name,
+                                            price.toInt(),
+                                            imageUrl,
+                                            description,
+                                            lat.toDouble(),
+                                            long.toDouble()
+                                        )
+                                    wear.add(wearableModel)
+                                }
+
                             }
+                            wearable = wear
 
+                        } else {
+                            println("manan there is some error")
                         }
-                        wearable = wear
-
-                    } else {
-                        println("manan there is some error")
                     }
-                }
             }
         }
 
@@ -240,6 +252,7 @@ class DashboardActivity : ComponentActivity() {
             LazyColumn(
 
             ) {
+
                 items(wearable) { rowItems ->
                     WearableCard(rowItems, context, true)
                 }
@@ -299,7 +312,7 @@ class DashboardActivity : ComponentActivity() {
                             wearable = wear
 
                         } else {
-                            println("manan there is some error")
+                            println("there is some error")
                         }
                     }
             }
@@ -326,8 +339,8 @@ class DashboardActivity : ComponentActivity() {
         Card(
             elevation = 4.dp,
             modifier = Modifier
-                .padding(4.dp)
-                .aspectRatio(0.8f)
+                .padding(16.dp)
+                .aspectRatio(1f)
                 .clickable {
                     val intent = Intent(context, WearableActivity::class.java)
                     intent.putExtra("image_url", wearable.image_url)
@@ -340,10 +353,10 @@ class DashboardActivity : ComponentActivity() {
                     localContext.startActivity(intent)
                 }
         ) {
-            println("manan" + wearable.description)
             Column(
                 modifier = Modifier
                     .background(Color.White)
+                    .fillMaxWidth()
                     .padding(8.dp)
             ) {
                 Image(
@@ -351,7 +364,8 @@ class DashboardActivity : ComponentActivity() {
                     contentDescription = "${wearable.name} image",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f),
+                        .weight(1f)
+                    ,
                     contentScale = ContentScale.Fit
                 )
                 Text(
