@@ -94,8 +94,8 @@ class DashboardActivity : ComponentActivity() {
 
         val items = listOf(
             NavigationItem.Home,
-            NavigationItem.Account,
-            NavigationItem.Rent
+            NavigationItem.Rent,
+            NavigationItem.Account
         )
 
         Scaffold(
@@ -152,7 +152,7 @@ class DashboardActivity : ComponentActivity() {
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp,
 
-                        )
+                            )
                     }
                 )
             }
@@ -252,7 +252,14 @@ class DashboardActivity : ComponentActivity() {
             LazyColumn(
 
             ) {
-
+                item {
+                    Text(
+                        text = "Rented Dresses",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
+                    )
+                }
                 items(wearable) { rowItems ->
                     WearableCard(rowItems, context, true)
                 }
@@ -364,8 +371,7 @@ class DashboardActivity : ComponentActivity() {
                     contentDescription = "${wearable.name} image",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f)
-                    ,
+                        .weight(1f),
                     contentScale = ContentScale.Fit
                 )
                 Text(
