@@ -38,7 +38,7 @@
             android:name=".LocateClientAcitvity"
             android:exported="false"
             android:theme="@style/AppTheme"
-            android:label="Locate Client" />
+            android:label="Local Wearable" />
         <activity
             android:name=".WearableActivity"
             android:exported="false"
